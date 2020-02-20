@@ -8,6 +8,6 @@ This is the pure CSS framework for speed and flexibility. It uses CSS variables,
 
 🚨 Docs are in the works
 
-## To-do
+## To Do
 
 - Add minification
