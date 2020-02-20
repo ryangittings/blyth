@@ -1,0 +1,24 @@
+{
+  "name": "blyth",
+  "version": "1.0.0",
+  "description": "A tiny little starter CSS framework",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryangittings/blyth"
+  },
+  "scripts": {
+    "dev": "goron -out assets/css/tokens.css & browser-sync start --files './' --proxy 'blyth.test'"
+  },
+  "bin": {
+    "goron": "./node_modules/goron/src/index.js"
+  },
+  "author": "Ryan Gittings",
+  "license": "GPL-2.0 AND MIT",
+  "homepage": "https://github.com/ryangittings/blyth",
+  "devDependencies": {},
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "goron": "^0.1.1",
+    "uglifycss": "^0.0.29"
+  }
+}
