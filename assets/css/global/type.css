@@ -23,3 +23,7 @@ h4 {
 h5 {
   font-size: var(--step-1);
 }
+
+p {
+  font-size: var(--step--1);
+}
