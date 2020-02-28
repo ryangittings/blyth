@@ -5,7 +5,7 @@ const colors = {
 };
 
 const fonts = {
-  base: 'system, sans-serif',
+  base: 'Helvetica, sans-serif',
   serif: 'Georgia, serif'
 };
 
@@ -40,6 +40,16 @@ module.exports = {
       output: 'standard',
       property: 'font-family'
     },
+    'gap-top': {
+      items: sizeScale,
+      output: 'standard',
+      property: 'margin-top'
+    },
+    'gap-bottom': {
+      items: sizeScale,
+      output: 'standard',
+      property: 'margin-bottom'
+    },
     'leading': {
       items: {
         tight: '1.2',
@@ -57,6 +67,21 @@ module.exports = {
       },
       output: 'standard',
       property: 'max-width'
+    },
+    'pad-top': {
+      items: sizeScale,
+      output: 'standard',
+      property: 'padding-top'
+    },
+    'pad-bottom': {
+      items: sizeScale,
+      output: 'standard',
+      property: 'padding-bottom'
+    },
+    'pad-left': {
+      items: sizeScale,
+      output: 'standard',
+      property: 'padding-left'
     },
     'text': {
       items: sizeScale,
