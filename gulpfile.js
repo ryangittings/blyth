@@ -7,64 +7,89 @@ const $ = require('gulp-load-plugins')({
 });
 
 const browserSync = $.browserSync.create();
-const reload = browserSync.reload;
 
-gulp.task('browserSync', function() {
-  browserSync.init({
-      proxy: "blyth.test",
-      open: true,
-      notify: false
-  });
-  gulp.watch("*.php").on("change", reload);
-});
+const paths = {
+  url: "blyth.test",
+  styles: {
+    src: ["./assets/src/css/*.css"],
+    dest: "./assets/css"
+  },
+  scripts: {
+    src: ["./assets/src/js/**/*.js"],
+    dest: "./assets/js"
+  },
+  assets: {
+    src: ['./assets/src/img/**/*.+(png|jpg|jpeg|gif|svg)'],
+    dest: "./assets/img"
+  }
+};
 
 // Minify Javascript files
-gulp.task('compress', function() {
-  return gulp.src(['assets/src/js/**/*.js'])
-      .pipe($.minify())
-      .pipe(gulp.dest('assets/js'))
+gulp.task('scripts', function () {
+  return gulp.src(paths.scripts.src)
+    .pipe(
+      $.babel({
+        presets: ["@babel/env"]
+      })
+    )
+    .pipe($.minify({
+      ext: {
+        src: ".js",
+        min: ".min.js"
+      }
+    }))
+    .pipe(gulp.dest(paths.scripts.dest))
 });
 
 // Compiles sass into Assets
-
 gulp.task('css', function () {
   return gulp
-      .src('assets/src/css/app.css')
-      .pipe($.sourcemaps.init())
-      .pipe($.postcss([$.postcssImport(), $.cssnano()]))
-      .pipe($.sourcemaps.write())
-      .pipe($.rename({
-        suffix: '.min'
-      }))
-      .pipe(gulp.dest('assets/css'))
-      .pipe(browserSync.stream());
+    .src(paths.styles.src)
+    .pipe($.sourcemaps.init())
+    .pipe($.postcss([$.postcssImport(), $.cssnano()]))
+    .pipe($.sourcemaps.write())
+    .pipe($.rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream());
 });
 
 // Process and Optimizing Images
-gulp.task('images', function() {
-  return gulp.src('assets/src/img/**/*.+(png|jpg|jpeg|gif|svg)')
-  // Caching images that ran through imagemin
-      .pipe($.cache($.imagemin({
-          interlaced: true,
-      })))
-      .pipe(gulp.dest('assets/img'))
+gulp.task('assets', function () {
+  return gulp.src(paths.assets.src)
+    .pipe($.cache($.imagemin({
+      interlaced: true,
+    })))
+    .pipe(gulp.dest(paths.assets.dest))
 });
 
 // Watchers
-gulp.task('watch', function() {
-  gulp.watch('assets/src/css/**/*.css', gulp.series('css'));
-  gulp.watch('assets/src/js/**/*.js', gulp.series('compress'));
+gulp.task('watch', function () {
+  browserSync.init({
+    proxy: paths.url,
+    open: true,
+    notify: false
+  });
+
+  gulp.watch(paths.styles.src, gulp.series('css'));
+  gulp.watch(paths.scripts.src, gulp.series('scripts', reload));
+  gulp.watch("*.php", reload);
   gulp.watch('*.html', reload);
-  gulp.watch('assets/src/img/**/*.+(png|jpg|jpeg|gif|svg)', gulp.series('images'));
+  gulp.watch(paths.assets.src, gulp.series('assets'));
 });
+
+// Browsersync Helper
+function reload(done) {
+  browserSync.reload();
+  done();
+}
 
 // Cleaning
 gulp.task('clean', function (done) {
-  $.del.sync(['./assets/img']);
+  $.del.sync([paths.assets.dest]);
   done();
 });
 
 // Build Sequences
-// ---------------
-
-gulp.task('default', gulp.parallel(['clean', 'css', 'images', 'compress', 'browserSync'], 'watch'));
+gulp.task('default', gulp.parallel(['clean', 'css', 'assets', 'scripts']));
