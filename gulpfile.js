@@ -11,11 +11,13 @@ const browserSync = $.browserSync.create();
 const paths = {
   url: "blyth.test",
   styles: {
+    watch: ["./assets/src/css/**/*.css"],
     src: ["./assets/src/css/*.css"],
     dest: "./assets/css"
   },
   scripts: {
-    src: ["./assets/src/js/**/*.js"],
+    watch: ["./assets/src/js/**/*.js"],
+    src: ["./assets/src/js/*.js"],
     dest: "./assets/js"
   },
   assets: {
@@ -45,9 +47,7 @@ gulp.task('scripts', function () {
 gulp.task('css', function () {
   return gulp
     .src(paths.styles.src)
-    .pipe($.sourcemaps.init())
     .pipe($.postcss([$.postcssImport(), $.cssnano()]))
-    .pipe($.sourcemaps.write())
     .pipe($.rename({
       suffix: '.min'
     }))
@@ -72,10 +72,10 @@ gulp.task('watch', function () {
     notify: false
   });
 
-  gulp.watch(paths.styles.src, gulp.series('css'));
-  gulp.watch(paths.scripts.src, gulp.series('scripts', reload));
-  gulp.watch("*.php", reload);
-  gulp.watch('*.html', reload);
+  gulp.watch(paths.styles.watch, gulp.series('css'));
+  gulp.watch(paths.scripts.watch, gulp.series('scripts', reload));
+  gulp.watch("**/*.php", reload);
+  gulp.watch('**/*.html', reload);
   gulp.watch(paths.assets.src, gulp.series('assets'));
 });
 
