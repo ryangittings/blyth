@@ -47,7 +47,7 @@ gulp.task('scripts', function () {
 gulp.task('css', function () {
   return gulp
     .src(paths.styles.src)
-    .pipe($.postcss([$.postcssImport(), $.cssnano()]))
+    .pipe($.postcss([$.postcssImport(), $.postcssCssVariables(), $.cssnano()]))
     .pipe($.rename({
       suffix: '.min'
     }))
