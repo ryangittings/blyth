@@ -76,7 +76,7 @@ gulp.task('watch', function () {
     notify: false
   });
 
-  gulp.watch(paths.styles.watch, gulp.series('css', reload));
+  gulp.watch(paths.styles.watch, gulp.series('css'));
   gulp.watch(paths.scripts.watch, gulp.series('scripts', reload));
   gulp.watch("**/*.php", reload);
   gulp.watch('**/*.html', reload);
