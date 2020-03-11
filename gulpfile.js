@@ -47,7 +47,7 @@ gulp.task('scripts', function () {
 gulp.task('css', function () {
   return gulp
     .src(paths.styles.src)
-    .pipe($.postcss([$.postcssImport(), $.cssnano()]))
+    .pipe($.postcss([$.postcssImport(), $.postcssCssVariables(), $.cssnano()]))
     .pipe($.rename({
       suffix: '.min'
     }))
@@ -72,7 +72,7 @@ gulp.task('watch', function () {
     notify: false
   });
 
-  gulp.watch(paths.styles.watch, gulp.series('css'));
+  gulp.watch(paths.styles.watch, gulp.series('css', reload));
   gulp.watch(paths.scripts.watch, gulp.series('scripts', reload));
   gulp.watch("**/*.php", reload);
   gulp.watch('**/*.html', reload);
