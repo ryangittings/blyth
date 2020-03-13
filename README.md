@@ -24,6 +24,7 @@ function blyth() {
   git clone git@github.com:ryangittings/blyth.git $1
   cd $1
   rm -rf .git
+  yarn
 }
 ```
 - Open `~/.bashrc` or `~/.zshrc` using any text editor you have
