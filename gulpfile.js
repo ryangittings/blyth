@@ -17,7 +17,7 @@ const paths = {
   },
   scripts: {
     watch: ["./assets/src/js/**/*.js"],
-    src: ["./assets/src/js/*.js"],
+    src: './assets/src/js',
     dest: "./assets/js"
   },
   assets: {
@@ -28,18 +28,19 @@ const paths = {
 
 // Minify Javascript files
 gulp.task('scripts', function () {
-  return gulp.src(paths.scripts.src)
+  return $.rollupStream({
+    input: `${paths.scripts.src}/main.js`,
+    format: 'es'
+  })
+    .pipe($.vinylSourceStream('main.js', paths.scripts.src))
+    .pipe($.vinylBuffer())
+    .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe(
       $.babel({
         presets: ["@babel/env"]
       })
     )
-    .pipe($.minify({
-      ext: {
-        src: ".js",
-        min: ".min.js"
-      }
-    }))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest))
 });
 
@@ -72,7 +73,7 @@ gulp.task('assets', function () {
 gulp.task('watch', function () {
   browserSync.init({
     proxy: paths.url,
-    open: true,
+    open: false,
     notify: false
   });
 
