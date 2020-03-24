@@ -1,5 +1,7 @@
 // Grab our gulp packages
 var gulp = require('gulp');
+var commonjs = require('@rollup/plugin-commonjs');
+var resolve = require('@rollup/plugin-node-resolve');
 
 const $ = require('gulp-load-plugins')({
   pattern: ['*'],
@@ -17,7 +19,7 @@ const paths = {
   },
   scripts: {
     watch: ["./assets/src/js/**/*.js"],
-    src: ["./assets/src/js/*.js"],
+    src: './assets/src/js',
     dest: "./assets/js"
   },
   assets: {
@@ -28,18 +30,23 @@ const paths = {
 
 // Minify Javascript files
 gulp.task('scripts', function () {
-  return gulp.src(paths.scripts.src)
-    .pipe(
+  const options = {
+    input: paths.scripts.src + '/main.js',
+    format: 'iife',
+    plugins: [
+      resolve,
+      commonjs,
       $.babel({
         presets: ["@babel/env"]
       })
-    )
-    .pipe($.minify({
-      ext: {
-        src: ".js",
-        min: ".min.js"
-      }
-    }))
+    ]
+  };
+
+  return $.rollupStream(options)
+    .pipe($.vinylSourceStream('main.js', paths.scripts.src))
+    .pipe($.vinylBuffer())
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest))
 });
 
