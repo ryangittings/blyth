@@ -27,7 +27,12 @@ const paths = {
 $.gulp.task('scripts', () =>
   $.gulp
     .src(paths.scripts.src + '/main.js')
-    .pipe($.babel({ presets: ['@babel/preset-env'] }))
+    .pipe($.babel({ presets: ['@babel/env'] }))
+    .pipe(
+      $.browserify({
+        insertGlobals: true
+      })
+    )
     .pipe($.gulp.dest(paths.scripts.dest))
 );
 

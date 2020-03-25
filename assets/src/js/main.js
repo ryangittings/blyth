@@ -1,5 +1,6 @@
-const components = {};
+import './test.js';
 
+const components = {};
 const app = {
   init: () => {
     Object.entries(components).forEach(component => {
@@ -23,7 +24,7 @@ const app = {
         new value(node, options);
       });
     });
-  },
+  }
 };
 
 app.init();
