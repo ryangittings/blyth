@@ -26,38 +26,18 @@ const paths = {
 
 // Minify Javascript files
 $.gulp.task('scripts', function () {
-  const isProduction = (process.env.NODE_ENV === 'production');
+  var b = $.browserify({
+    entries: `${paths.scripts.src}/main.js`,
+    debug: true,
+  }).transform("babelify", {presets: ["@babel/preset-env"]});
 
-  const config = {
-    entry: `${paths.scripts.src}/main.js`,
-    output: {
-      filename: 'main.js',
-      path: `${__dirname}/${paths.scripts.dest}`,
-    },
-    mode: isProduction ? 'production' : 'development',
-    module: {
-      rules: [
-        {
-          test: /^(?!.*\.{test,min}\.js$).*\.js$/,
-          exclude: /(node_modules)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
-        },
-      ],
-    },
-  };
-
-  return new Promise(resolve => $.webpack(config, (err, stats) => {
-    if (err) console.log('Webpack', err);
-
-    console.log(stats.toString({ /* stats options */ }));
-
-    resolve();
-  }));
+  return b.bundle()
+    .pipe($.plumber())
+    .pipe($.vinylSourceStream('main.js'))
+    .pipe($.vinylBuffer())
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.sourcemaps.write('./'))
+    .pipe($.gulp.dest(paths.scripts.dest));
 });
 
 // Compiles sass into Assets
