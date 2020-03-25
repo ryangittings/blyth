@@ -16,7 +16,7 @@ const paths = {
   scripts: {
     watch: ["./assets/src/js/**/*.js"],
     src: './assets/src/js',
-    dest: "./assets/js"
+    dest: "assets/js"
   },
   assets: {
     src: ['./assets/src/img/**/*.+(png|jpg|jpeg|gif|svg)'],
@@ -31,7 +31,8 @@ $.gulp.task('scripts', function () {
   const config = {
     entry: `${paths.scripts.src}/main.js`,
     output: {
-      filename: `${paths.scripts.src}/main.js`,
+      filename: 'main.js',
+      path: `${__dirname}/${paths.scripts.dest}`,
     },
     mode: isProduction ? 'production' : 'development',
     module: {
