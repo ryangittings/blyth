@@ -7,7 +7,7 @@ const $ = require('gulp-load-plugins')({
 const browserSync = $.browserSync.create();
 
 const paths = {
-  url: "wool-factory.test",
+  url: "blyth.test",
   styles: {
     watch: ["./assets/src/css/**/*.css"],
     src: ["./assets/src/css/*.css"],
