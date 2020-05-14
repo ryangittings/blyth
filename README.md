@@ -1,5 +1,7 @@
 # Blyth
 
+![CI](https://github.com/ryangittings/blyth/workflows/CI/badge.svg)
+
 This is the pure CSS framework for speed and flexibility. It uses CSS variables, and features:
 
 - [Modern CSS Reset](https://github.com/hankchizljaw/modern-css-reset)
@@ -7,10 +9,6 @@ This is the pure CSS framework for speed and flexibility. It uses CSS variables,
 - [Utopia Design Scale](https://utopia.fyi/)
 
 🚨 Docs are in the works
-
-## To Do
-
-- Add minification
 
 ## Creating a command (Mac)
 
