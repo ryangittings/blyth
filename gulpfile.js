@@ -35,6 +35,7 @@ $.gulp.task('scripts', function () {
     .pipe($.plumber())
     .pipe($.vinylSourceStream('main.js'))
     .pipe($.vinylBuffer())
+    .pipe($.uglify())
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.sourcemaps.write('./'))
     .pipe($.gulp.dest(paths.scripts.dest));
