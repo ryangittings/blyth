@@ -7,7 +7,11 @@
     "url": "https://github.com/ryangittings/blyth"
   },
   "scripts": {
-    "dev": "goron -out assets/src/css/utility/tokens.css & gulp watch"
+    "dev": "goron -out assets/src/css/utility/tokens.css & gulp watch",
+    "tokens": "goron -out assets/src/css/utility/tokens.css",
+    "styles": "gulp css",
+    "scripts": "gulp scripts",
+    "assets": "gulp assets"
   },
   "bin": {
     "goron": "./node_modules/goron/src/index.js"
