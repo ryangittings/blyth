@@ -1,8 +1,8 @@
 :root {
   --fluid-min-width: 320;
   --fluid-max-width: 1140;
-  --fluid-min-size: 21;
-  --fluid-max-size: 24;
+  --fluid-min-size: 16;
+  --fluid-max-size: 18;
   --fluid-min-ratio: 1.2;
   --fluid-max-ratio: 1.25;
 
